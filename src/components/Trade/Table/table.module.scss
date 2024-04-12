@@ -1,0 +1,139 @@
+table {
+    width: 749px;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+
+    // border: 1px solid transparent;
+    // background: linear-gradient(#000000, #000000) padding-box,
+    // linear-gradient(to top left, #4A3AFF , #4A3AFF, #CC00ED) border-box;
+
+    th{
+        background: #4a3aff33;
+        border: 1px solid #2E286F;
+        border-top: none;
+        border-left: none;
+        padding: 12px 29px;
+        text-align: center;
+
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 21px;
+
+        color: #FFFFFF;
+
+        &:first-child{
+            border-radius: 18px 0 0 0;
+        }
+
+        &:last-child{
+            border-right: none;
+        }
+    }
+
+    td {
+        padding: 10px 0;
+        background: rgba(4, 3, 4, 0.5);
+        border: 1px solid #2E286F;
+        border-bottom: none;
+        border-left: none;
+
+        font-family: 'Poppins', sans-serif;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        text-align: center;
+
+        color: #7F7F7F;
+
+            &:last-child{
+                border-right: none;
+                border-radius: 0 0 18px 0;
+            }
+
+            &:first-child{
+                border-radius: 0 0 0 18px ;
+            }
+    }
+
+
+
+
+}
+
+.table__container{
+    width: 749px;
+    max-height: 453px;
+    overflow: auto;
+
+    border: 1px solid transparent;
+    background: linear-gradient(#000000, #000000) padding-box,
+    linear-gradient(to top left, #4A3AFF , #4A3AFF, #CC00ED) border-box;
+    // border-right: none;
+
+    border-radius: 18px;
+
+    &::-webkit-scrollbar {
+        width: 10px;
+    }
+    
+    &::-webkit-scrollbar-track{
+        background-color: transparent;
+    }
+    
+    
+    &::-webkit-scrollbar-thumb {
+        background: #4A3AFF;
+        border-radius: 4px;
+    }
+}
+
+thead {
+    position: sticky;
+    top: 0;
+    background-color: rgba(74, 58, 255, 0);
+    backdrop-filter: blur(10px);
+    z-index: 0;
+}
+
+tbody {
+    overflow-y: auto;
+    max-height: 300px;
+
+}
+
+
+@media(max-width: 1410px){
+    table{
+        width: 100%;
+        // min-width: 579px;
+
+        th{
+            width: 1%;
+        }
+    }
+
+    .table__container{
+        width: 100%;
+        min-width: 579px;
+    }
+
+    thead {
+        position: sticky;
+        top: 0;
+        background-color: rgba(74, 58, 255, 0);
+        backdrop-filter: blur(10px);
+        z-index: 0;
+
+        width: 100%;
+        min-width: 579px;
+    }
+    
+    tbody {
+        overflow-y: auto;
+        max-height: 300px;
+    
+        width: 100%;
+        min-width: 579px;
+    }
+}

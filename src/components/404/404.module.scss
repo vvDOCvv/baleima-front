@@ -1,0 +1,210 @@
+.error{      
+    background: #020102;
+    overflow: hidden;
+    position: relative;
+
+    .error__item{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 192px 398px 186px 447px;
+        position: relative;
+
+        
+    h1{
+        width: 569px;
+        height: 318px;
+
+        font-family: 'Poppins', sans-serif;
+        font-style: normal;
+        font-weight: 300;
+        font-size: 300px;
+        line-height: 318px;
+        letter-spacing: 16px;
+        text-transform: uppercase;
+
+        color: #FFFFFF;
+    }
+
+    img{
+        position: absolute;
+        left: 700px;
+        top: calc(50% - 62px - 54.73px);
+        z-index: 0;
+    }
+
+    span{
+        position: absolute;
+        width: 40px;
+        height: 85px;
+        left: calc(50% - 10px + 25px);
+        top: calc(50% - 45px - 144.5px);
+
+        font-family: 'Poppins', sans-serif;
+        font-style: normal;
+        font-weight: 275;
+        font-size: 80px;
+        line-height: 85px;
+        letter-spacing: 4.26667px;
+        text-transform: uppercase;
+
+        color: #FFFFFF;
+    }
+
+    h3{
+        width: 478px;
+        height: 64px;
+
+        font-weight: 700;
+        font-size: 32px;
+        line-height: 64px;
+        text-align: center;
+        text-transform: uppercase;
+
+        color: #FFFFFF;
+    }
+
+    p{
+        width: 590px;
+        height: 60px;
+
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 30px;
+        text-align: center;
+
+        color: #6F6C90;
+    }
+    
+    button{
+        width: 300px;
+
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 18px;
+        text-align: center;
+        text-transform: uppercase;
+
+        color: #FFFFFF;
+        padding: 20px 32px;
+        margin-top: 30px;
+        gap: 8px;
+
+        background: #4A3AFF;
+        box-shadow: 0px 4px 21.2px rgba(204, 0, 237, 0.12), 0px 3px 12px rgba(74, 58, 255, 0.18);
+        border-radius: 56px;
+        cursor: pointer;
+        transition:  box-shadow 0.2s, color 0.2s;
+
+        &:hover{            
+            box-shadow: 2px -3px 19px rgba(204, 0, 237, 0.24), 0px 0px 15.2px rgba(74, 58, 255, 0.92);
+        }
+    }
+
+    }
+
+    .ball__left{
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        left: -55px;
+        top: 689px;
+        z-index: 1;
+        animation: moveBallLeft 20s linear infinite;
+
+        background: #4A3AFF;
+        filter: blur(250px);
+    }
+
+    .ball__rigth{
+        position: absolute;
+        width: 223px;
+        height: 223px;
+        left: 1273px;
+        top: 184px;
+        z-index: 1;
+        animation: moveBallRigth 20s linear infinite;
+
+        background: #FB3AFF;
+        filter: blur(146.661px);
+    }
+      
+    @keyframes moveBallRigth {
+        0% {
+            left: 1273px;
+        }
+        10% {
+            left: 1273px;
+        }
+        25% {
+            left: 1190px; 
+            top: 745px; 
+        }
+        35% {
+            left: 1190px; 
+            top: 745px; 
+        }
+        50% {
+            left: -114px;
+            top: 838px;
+        }
+        60% {
+            left: -114px;
+            top: 838px;
+        }
+        75% {
+            left: 473px;
+            top: -205px;
+        }
+        85% {
+            left: 473px;
+            top: -205px;
+        }
+        100% {
+            height: 223px;
+            left: 1273px;
+        }
+    }
+
+
+    @keyframes moveBallLeft {
+        0% {
+            left: -55px;
+            top: 689px;
+        }
+        10% {
+            left: -55px;
+            top: 689px;
+        }
+        25% {
+            left: 59px;
+            top: 108px;
+        }
+        35% {
+            left: 59px;
+            top: 108px;
+        }
+        50% {
+            left: 473px;
+            top: -205px;
+        }
+        60% {
+            left: 473px;
+            top: -205px;
+        }
+        75% {
+            left: 1126px;
+            top: -17px;
+        }
+        85% {
+            left: 1065px;
+            top: 833px;
+        }
+        100% {
+            left: -55px;
+            top: 689px;
+        }
+    }
+
+}
