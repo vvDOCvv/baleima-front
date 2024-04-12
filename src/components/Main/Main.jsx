@@ -1,7 +1,11 @@
 import { Link } from "react-router-dom";
 import styleMain from "./main.module.scss";
+import { useEffect } from "react";
 
 function Main (){
+    useEffect(()=>{
+        
+    },[])
     return(
         <div className={styleMain.container}>
             <div className={styleMain.header__ball__left}></div>

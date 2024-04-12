@@ -2,15 +2,22 @@ import { Link } from "react-router-dom"
 import styleTrade from "./trade.module.scss";
 import Table from "./Table/Table";
 import {CloseAdvice, Exit, MEXC_URL } from "../../utils/const";
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import axios from "axios";
-
-const tools = ["KASUSDT", "BTCUSDT", "ETH",]
 
 function Trade ({setIsLogged}){
     const symbolTrade = ["KASUSDT", "BTCUSDT", "ETHUSDT"];
-    const [isModalAdvice, setModalAdvice] = useState(true)
-    const [autoTradeMode, setautoTradeMode] = useState(true);
+    const [isModalAdvice, setModalAdvice] = useState(false);
+
+    const [changeUserTrade, setChangeUserTradeDispatch] = useReducer(reducerUserTrade, {
+        symbol_to_trade: "",
+        trade_quantity: "",
+        trade_percent: "",
+        bif_is_active: "",
+        bif_percent_1: "",
+        bif_percent_2: "",
+        bif_percent_3: "",
+    })
 
     const [userInfo, setUserInfo] = useState("");
     const [isButtonDisabled, setButtonDisabled] = useState('');
@@ -19,8 +26,58 @@ function Trade ({setIsLogged}){
     const [atProfit, setAtProfit] = useState(0);
     const [rows, setRows] = useState([]);
 
+    function reducerUserTrade(changeUserTrade, action){
+        switch (action.type) {
+          case "initial_data":
+            return {...changeUserTrade, ...action.payload}
+          case "trade_quantity":
+            return {...changeUserTrade, trade_quantity: action.value}
+          case "trade_percent":
+            return {...changeUserTrade, trade_percent: action.value}
+          case "bif_is_active":
+            console.log(changeUserTrade.bif_is_active)
+            return {...changeUserTrade, bif_is_active: !changeUserTrade.bif_is_active}
+          case "bif_percent_1":
+            return {...changeUserTrade, bif_percent_1: action.value}
+          case "bif_percent_2":
+            return {...changeUserTrade, bif_percent_2: action.value}
+          case "bif_percent_3":
+            return {...changeUserTrade, bif_percent_3: action.value}
+          case "symbol_to_trade":
+            return {...changeUserTrade, symbol_to_trade: action.value}
+          default:
+              return changeUserTrade;
+        }
+    }
+
     const toggleAutoTrade = () => {
-        setautoTradeMode(prevMode => !prevMode);
+        
+    //     const bif = {
+    //         bif_is_active: true,
+    //         bif_percent_1: bifPercent.bif_percent_1,
+    //         bif_percent_2: bifPercent.bif_percent_2,
+    //         bif_percent_3: bifPercent.bif_percent_3,
+    //     } 
+
+    // if(autoTradeMode){
+    //     axios.put(`${MEXC_URL}/api/user`, bif, {
+    //         headers: {
+    //             'Accept': 'application/json',
+    //             Authorization: `bearer ${getTokenFromLocalStorage()}`, 
+    //           }
+    //     })
+    //     .then(function(response){
+    //         setautoTradeMode(prevMode => !prevMode);
+    //     })
+    //     .catch(function (error) {
+    //         console.log(error)
+    //     })
+    // }else{
+
+    // }
+
+
+
     }; 
 
     const getTokenFromLocalStorage = () => {
@@ -43,8 +100,20 @@ function Trade ({setIsLogged}){
         })
           .then(function (response) {
             console.log(response)
+    
+            const setBifPercent = {
+                trade_quantity: response.data.trade_quantity,
+                trade_percent: response.data.trade_percent,
+                symbol_to_trade: response.data.symbol_to_trade,
+                bif_is_active: response.data.bif_is_active,
+                bif_percent_1: response.data.bif_percent_1,
+                bif_percent_2: response.data.bif_percent_2,
+                bif_percent_3: response.data.bif_percent_3,
+            }
+
             setUserInfo(response.data)
             setButtonDisabled(response.data.auto_trade)
+            setChangeUserTradeDispatch({ type: "initial_data", payload: setBifPercent });
             // setUserInfo({trade_percent: response.data.trade_percent, trade_quantity: response.data.trade_quantity,})
           })
           .catch(function (error) {
@@ -87,6 +156,7 @@ function Trade ({setIsLogged}){
         .then(function (response) {
           console.log(response)
           // handle success
+          setRows(response.data.trades)
           setAtProfit(+response.data.total_profit)
         })
         .catch(function (error) {
@@ -97,25 +167,22 @@ function Trade ({setIsLogged}){
         })
     };
   
-    useEffect(()=>{
-        getProfile()
-
-    }, [])
 
     useEffect(() => {
         fetchBalanceProfit();
         fetchTotalProfit()
+        getProfile()
 
-          const intervalId = setInterval(() => {
-            fetchBalanceProfit();
-            fetchTotalProfit();
-          }, 30000);
+        //   const intervalId = setInterval(() => {
+        //     fetchBalanceProfit();
+        //     fetchTotalProfit();
+        //   }, 30000);
     
-          return () => clearInterval(intervalId);
+        //   return () => clearInterval(intervalId);
 
-      }, [rows])
+      }, [])
 
-    const handleTradeClick = (trade) => {
+      function tradeStop(trade) {
         axios.post(`${MEXC_URL}/api/user/trades?auto_trade=${trade}`, null, {
           headers: {
             'accept': 'application/json',
@@ -141,7 +208,70 @@ function Trade ({setIsLogged}){
             console.log(error)
             alert(error.response)
           });
-      };
+      }
+
+    const handleTradeClick = (trade) => {
+      if(!trade){
+        axios.put(`${MEXC_URL}/api/user`, changeUserTrade, {
+          headers: {
+              'Accept': 'application/json',
+              Authorization: `bearer ${getTokenFromLocalStorage()}`, 
+            }
+        })
+        .then(function(response){
+          console.log(response)
+          tradeStop(trade)
+        })
+        .catch(function (error) {
+            console.log(error)
+        })
+      }else{
+        tradeStop(trade)
+      }
+    } 
+
+    function restart (){
+        axios.post(`${MEXC_URL}/api/user/buy`, null, {
+            headers: {
+              'accept': 'application/json',
+              Authorization: `bearer ${getTokenFromLocalStorage()}`
+            }
+          })
+            .then(function (response) {
+              console.log(response)
+              tradeStop(true)
+            //   if(trade){
+            //       if(response.data !== null){
+            //           getProfile()
+            //           alert("Торговля запущена успешно")
+            //       }else{
+            //           alert("Недостаточно монет для торговли")
+            //       }
+            //   }else{
+            //       console.log(response)
+            //   }
+            })
+            .catch(function (error) {
+              console.log(error)
+              alert(error.response)
+            });
+    }
+
+    const handleRestartTradeClick = () =>{
+            axios.put(`${MEXC_URL}/api/user`, changeUserTrade, {
+              headers: {
+                  'Accept': 'application/json',
+                  Authorization: `bearer ${getTokenFromLocalStorage()}`, 
+                }
+            })
+            .then(function(response){
+              console.log(response)
+              restart()
+            })
+            .catch(function (error) {
+                console.log(error)
+            })
+    }
     return(
         <>
             <div className={styleTrade.trade}> 
@@ -184,7 +314,7 @@ function Trade ({setIsLogged}){
                     </div>
                 </div>
                 <div className={styleTrade.trade__center}>
-                    <Table/>
+                    <Table rows={rows}/>
                     <div className={styleTrade.trade__balance}>
                         <div>
                             <h4>Баланс</h4>
@@ -241,24 +371,30 @@ function Trade ({setIsLogged}){
                             <span>сумма</span>
                             <input 
                                 type="number"
-                                placeholder={userInfo.trade_quantity}/>
+                                value={changeUserTrade.trade_quantity}
+                                placeholder={changeUserTrade.trade_quantity}
+                                onChange={(e) => setChangeUserTradeDispatch({ type: 'trade_quantity', value: e.target.value }) }
+                                />
                         </div>
                         <div>
                             <span>маржа</span>
                             <input 
                                 type="number" 
-                                placeholder={userInfo.trade_percent}/>
+                                value={changeUserTrade.trade_percent}
+                                placeholder={changeUserTrade.trade_percent}
+                                onChange={(e) => setChangeUserTradeDispatch({ type: 'trade_percent', value: e.target.value }) }
+                                />
                         </div>
                         <div className={styleTrade.trade__tools}>
                             <span>инструмент</span>
-                            <select className={styleTrade.trade__select} >
-                                {symbolTrade.map((e) => e == userInfo.symbol_to_trade ? <option selected>{e}</option> : <option>{e}</option>)}
+                            <select className={styleTrade.trade__select} value={changeUserTrade.symbol_to_trade} onChange={(e) => setChangeUserTradeDispatch({ type: 'symbol_to_trade', value: e.target.value }) }>
+                                {symbolTrade.map((e) => e == changeUserTrade.symbol_to_trade ? <option selected>{changeUserTrade.symbol_to_trade}</option> : <option>{e}</option>)}
                             </select>
                         </div>
                         <div className={styleTrade.trade__averag}>
                             <span>устреднение</span>
-                            <div onClick={toggleAutoTrade} className={styleTrade.trade__down}>
-                                {autoTradeMode ? (
+                            <div onClick={() => setChangeUserTradeDispatch({ type: 'bif_is_active', value: !changeUserTrade.bif_is_active}) } className={styleTrade.trade__down}>
+                                {!changeUserTrade.bif_is_active ? (
                                         <div>
                                             <span role="img" aria-label="Light Mode">
                                                 да
@@ -279,26 +415,38 @@ function Trade ({setIsLogged}){
                                     )}
                             </div>
                         </div>
-                        <div className={styleTrade.bif}>
-                            <span>% устреднение</span>
-                            <div>
-                                <input 
-                                    type="number"
-                                    disabled={autoTradeMode}
-                                    placeholder="1"/>
-                                <input 
-                                    type="number"
-                                    disabled={autoTradeMode}
-                                    placeholder="2"/>
-                                <input 
-                                    type="number"
-                                    disabled={autoTradeMode}
-                                    placeholder="3"/>
-                            </div>
-                        </div>
+
+                            {changeUserTrade.bif_is_active ? 
+                                <div className={styleTrade.bif}>
+                                  <span>% устреднение</span>
+                                  <div>
+                                    <input 
+                                        type="number"
+                                        value={changeUserTrade.bif_percent_1}
+                                        placeholder={changeUserTrade.bif_percent_1}
+                                        onChange={(e) => setChangeUserTradeDispatch({ type: 'bif_percent_1', value: e.target.value }) }
+                                        />
+                                    <input 
+                                        type="number"
+                                        value={changeUserTrade.bif_percent_2}
+                                        placeholder={changeUserTrade.bif_percent_2}
+                                        onChange={(e) => setChangeUserTradeDispatch({ type: 'bif_percent_2', value: e.target.value }) }
+                                        />
+                                    <input 
+                                        type="number"
+                                        value={changeUserTrade.bif_percent_3}
+                                        placeholder={changeUserTrade.bif_percent_3}
+                                        onChange={(e) => setChangeUserTradeDispatch({ type: 'bif_percent_3', value: e.target.value }) }
+                                        />
+                                  </div>
+                                </div>
+                                : null
+                            }
+  
                     </div>
                     <button disabled={isButtonDisabled}  onClick={() => handleTradeClick(true)}>Торговать</button>
                     <button disabled={!isButtonDisabled}  onClick={() => handleTradeClick(false)}>Стоп</button>
+                    <button disabled={!isButtonDisabled}  onClick={() => handleRestartTradeClick()}>Рестарт</button>
                     {
                         isModalAdvice ?
                         <div className={styleTrade.trade__advice}>

@@ -243,7 +243,7 @@ const Table = ({rows, setRows}) => {
 
       return () => clearInterval(intervalId);
     }
-  }, [currentPage])
+  }, [])
 
   return (
     <div>
@@ -263,6 +263,7 @@ const Table = ({rows, setRows}) => {
             {rows? rows.map((row, index) => (
                 <tr key={index}>
                     <td>{row.buy_quantity}</td>
+                    <td>{row.symbol}</td>
                     <td>{row.buy_price}</td>
                     <td>{row.sell_price}</td>
                     <td>{row.profit}</td>
