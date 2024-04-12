@@ -19,9 +19,9 @@ function Tariffs ({setIsLogged}){
                         <Link to="/profile">
                             <button>Профиль</button>
                         </Link>
-                        <Link to="/profile/tariffs">
+                        {/* <Link to="/profile/tariffs">
                             <button className={styleTariffs.nav__btn}>Тарифы <span>и оплаты</span></button>
-                        </Link>
+                        </Link> */}
                         <Link to="/profile/settings">
                             <button >Настройка <span>аккаунта</span></button>
                         </Link>

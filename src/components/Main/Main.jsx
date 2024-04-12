@@ -3,9 +3,9 @@ import styleMain from "./main.module.scss";
 import { useEffect } from "react";
 
 function Main (){
-    useEffect(()=>{
+    // useEffect(()=>{
         
-    },[])
+    // },[])
     return(
         <div className={styleMain.container}>
             <div className={styleMain.header__ball__left}></div>

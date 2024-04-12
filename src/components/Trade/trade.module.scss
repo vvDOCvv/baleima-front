@@ -624,69 +624,69 @@
     }
 }
 
-@media(max-width: 1410px){
-    .trade{
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
+// @media(max-width: 1410px){
+//     .trade{
+//         display: flex;
+//         flex-direction: column;
+//         gap: 20px;
 
-        .trade__profile{
-            display: none;
-        }
+//         .trade__profile{
+//             display: none;
+//         }
         
-        .trade__balance{
-            display: none;
-        }
+//         .trade__balance{
+//             display: none;
+//         }
 
-        .trade__profile__laptop{
-            display: flex;
-            justify-content: space-between;
+//         .trade__profile__laptop{
+//             display: flex;
+//             justify-content: space-between;
     
-            border: 1px solid transparent;
-            background: linear-gradient(#000000, #000000) padding-box,
-            linear-gradient(to top left, #4A3AFF , #4A3AFF, #CC00ED) border-box;
-            border-radius: 18px;
+//             border: 1px solid transparent;
+//             background: linear-gradient(#000000, #000000) padding-box,
+//             linear-gradient(to top left, #4A3AFF , #4A3AFF, #CC00ED) border-box;
+//             border-radius: 18px;
 
-            padding: 16px 20px;
+//             padding: 16px 20px;
 
-            .trade__profile__data{
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                gap: 15px;
-            }
+//             .trade__profile__data{
+//                 display: flex;
+//                 justify-content: space-between;
+//                 align-items: center;
+//                 gap: 15px;
+//             }
 
-            h5{
-                margin-bottom: 9px;
-                font-weight: 700;
-                font-size: 16px;
-                line-height: 21px;
+//             h5{
+//                 margin-bottom: 9px;
+//                 font-weight: 700;
+//                 font-size: 16px;
+//                 line-height: 21px;
 
-                color: #E1DFEC;
-            }
+//                 color: #E1DFEC;
+//             }
 
-            span{
-                font-weight: 500;
-                font-size: 14px;
-                line-height: 18px;
+//             span{
+//                 font-weight: 500;
+//                 font-size: 14px;
+//                 line-height: 18px;
 
-                color: rgba(255, 255, 255, 0.5);
-            }
-        }
+//                 color: rgba(255, 255, 255, 0.5);
+//             }
+//         }
 
-        .nav__exit{
-            display: flex;
-            align-items: center;
+//         .nav__exit{
+//             display: flex;
+//             align-items: center;
 
-            font-family: 'Poppins', sans-serif;
-            font-style: normal;
-            font-weight: 500;
-            font-size: 14px;
-            line-height: 140%;
+//             font-family: 'Poppins', sans-serif;
+//             font-style: normal;
+//             font-weight: 500;
+//             font-size: 14px;
+//             line-height: 140%;
             
-            padding: 0px;
-            cursor: pointer;
-            color: #FFFFFF;
-        }
-    }
-}
+//             padding: 0px;
+//             cursor: pointer;
+//             color: #FFFFFF;
+//         }
+//     }
+// }

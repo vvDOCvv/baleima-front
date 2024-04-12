@@ -204,9 +204,9 @@ function Profile ({setIsLogged}){
                         <Link to="/profile">
                             <button className={styleProfile.nav__btn}>Профиль</button>
                         </Link>
-                        <Link to="/profile/tariffs">
+                        {/* <Link to="/profile/tariffs">
                             <button>Тарифы <span>и оплаты</span></button>
-                        </Link>
+                        </Link> */}
                         <Link to="/profile/settings">
                             <button>Настройка <span>аккаунта</span></button>
                         </Link>

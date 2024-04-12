@@ -31,9 +31,9 @@ function Settings ({setIsLogged}){
                         <Link to="/profile">
                             <button>Профиль</button>
                         </Link>
-                        <Link to="/profile/tariffs">
+                        {/* <Link to="/profile/tariffs">
                             <button >Тарифы <span>и оплаты</span></button>
-                        </Link>
+                        </Link> */}
                         <Link to="/profile/settings">
                             <button className={styleSettings.nav__btn}>Настройка <span>аккаунта</span></button>
                         </Link>
