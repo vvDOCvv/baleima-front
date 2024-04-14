@@ -86,10 +86,10 @@ function SignIn ({ setIsLogged, setToken }){
                     <p>Добро пожаловать обратно! Здесь твое место для вдохновения и достижения целей.</p>
                       <div className={styleSignIn.signin__btn}>
                         <Link to="/main/sign-up">
-                            <button>регистрация</button>
+                            <button>Регистрация</button>
                         </Link>
                         <Link to="/main/sign-in">
-                            <button className={styleSignIn.signin__btn__main}>войти</button>
+                            <button className={styleSignIn.signin__btn__main}>Войти</button>
                         </Link>
                       </div>
                     <form onSubmit={handleLogin}>

@@ -11,6 +11,7 @@ function SignUp (){
     const [loginEmail, setLoginEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirmation, setPasswordConfirmation] = useState('');
+    const [isResponse, setIsResponse] = useState(false)
 
     const [apiKey, setApiKey] = useState('');
     const [secretKey, setSecretKey] = useState('');
@@ -66,7 +67,7 @@ function SignUp (){
     const handleRegister = (e) => {
         e.preventDefault();
 
-        if (!firstname || !lastname || !number || !loginEmail || !password || !passwordConfirmation) {
+        if (!firstname || !lastname || !number || !loginEmail || !password || !passwordConfirmation || !isResponse) {
           setFormError(true);
 
           setFirstnameError(!firstname);
@@ -92,6 +93,8 @@ function SignUp (){
           last_name: lastname,
           username: loginEmail,
           password: password,
+          mexc_api_key: apiKey,
+          mexc_secret_key: secretKey,
         },{
             headers: {
           'Accept': 'application/json',
@@ -224,7 +227,7 @@ function SignUp (){
                                 className={secretKey ? styleSignUp.signin__input:""}
                             />
                             <div className={styleSignUp.response}>
-                                <input type="checkbox" />
+                                <input type="checkbox"  onClick={()=> setIsResponse(!isResponse)}/>
                                 <p>Отказ от ответственности</p>
                                 <a href="#">подробнее&nbsp;{AkarIcons}</a>
                                 

@@ -1,13 +1,16 @@
-import { Close, Exit } from "../../../utils/const";
+import { Close, Exit, MEXC_URL } from "../../../utils/const";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import styleSettings from "./settings.module.scss";
 import Select from 'react-select';
+import axios from "axios";
 
 function Settings ({setIsLogged}){
     const [password, setPassword] = useState('');
     const [passwordConfirmation, setPasswordConfirmation] = useState('');
 
+    const [passwordError, setPasswordError] = useState(false);
+    const [passwordConfirmationError, setPasswordConfirmationError] = useState(false);
 
     const [darkMode, setDarkMode] = useState(false);
 
@@ -15,12 +18,41 @@ function Settings ({setIsLogged}){
       setDarkMode(prevMode => !prevMode);
     };
 
+    const getTokenFromLocalStorage = () => {
+        return localStorage.getItem("accessToken");
+      };
+
     const handleLogout = () => {
         // Дополнительная логика выхода, например, сброс статуса авторизации
         setIsLogged(false);
   
         localStorage.removeItem('accessToken');
     }
+
+    const handleSettingBtn = (event) =>{
+        event.preventDefault();
+    console.log(password, passwordConfirmation)
+        if (password !== passwordConfirmation) {
+            setPasswordError(true);
+            setPasswordConfirmationError(true);
+            return;
+        }
+    
+        axios.put(`${MEXC_URL}/api/user`, {password: password},{
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `bearer ${getTokenFromLocalStorage()}`,
+              },
+            }
+          )
+          .then((response) => {
+            setPassword("")
+            setPasswordConfirmation("")
+            setPasswordError(false);
+            setPasswordConfirmationError(false);
+          })
+          .catch((error) => {});
+      }
 
     return(
         <div className={styleSettings.profile}>
@@ -50,20 +82,22 @@ function Settings ({setIsLogged}){
                             value={password}
                             onChange={(e) => {
                                 setPassword(e.target.value);
+                                setPasswordError(false);
                             }}
                             placeholder="Пароль"
-                            className={password ? styleSettings.settings__input:""}
+                            className={passwordError ? styleSettings.error : ''}
                         />
                         <input
                             type="password"
                             value={passwordConfirmation}
                             onChange={(e) => {
                                 setPasswordConfirmation(e.target.value);
+                                setPasswordConfirmationError(false);
                             }}
                             placeholder="Повторите пароль"
-                            className={passwordConfirmation ? styleSettings.settings__input:""}
+                            className={passwordConfirmationError ? styleSettings.error : ''}
                         />
-                        <button>Сохранить</button>
+                        <button onClick={handleSettingBtn}>Сохранить</button>
                     </div>
                     <div className={styleSettings.settings__theme}>
                         <div>

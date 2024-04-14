@@ -147,11 +147,6 @@
                 }
             }
 
-            .settings__input{
-                background: rgba(4, 3, 4, 0.5);
-                border: 1px solid rgba(74, 58, 255, 0.5);
-                border-radius: 4px;
-            }
 
             button{
                 padding: 16px 32px;
@@ -174,6 +169,10 @@
                 &:hover{            
                     box-shadow: 2px -3px 19px rgba(204, 0, 237, 0.24), 0px 0px 15.2px rgba(74, 58, 255, 0.92);
                 }
+            }
+
+            .error{
+                border-color: #F46565; 
             }
         }
 
@@ -214,6 +213,8 @@
 
             
         }
+
+
     }
 
     .theme__toggle {

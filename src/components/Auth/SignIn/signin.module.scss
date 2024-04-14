@@ -551,11 +551,11 @@
             }
 
             .signin__btn{
-                display: block;
+                display: flex;
                 justify-content: space-between;
                 border: 1px solid #4A3AFF;
                 border-radius: 10px;
-                width: 284px;
+                width: 285px;
 
                 button{
                     font-family: 'Poppins', sans-serif;
@@ -568,6 +568,7 @@
                     background-color: #020102;
                     border-radius: 10px;
                     width: auto;
+                    text-transform: lowercase;
 
                     color: #FFFFFF;
 
