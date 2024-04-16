@@ -31,7 +31,6 @@ function Settings ({setIsLogged}){
 
     const handleSettingBtn = (event) =>{
         event.preventDefault();
-    console.log(password, passwordConfirmation)
         if (password !== passwordConfirmation) {
             setPasswordError(true);
             setPasswordConfirmationError(true);

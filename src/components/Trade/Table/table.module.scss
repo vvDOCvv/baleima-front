@@ -6,6 +6,10 @@ table {
     // background: linear-gradient(#000000, #000000) padding-box,
     // linear-gradient(to top left, #4A3AFF , #4A3AFF, #CC00ED) border-box;
 
+    .profit{
+        color: #3EDD87;
+    }
+
     th{
         background: #4a3aff33;
         border: 1px solid #2E286F;
@@ -106,6 +110,15 @@ tbody {
     table{
         width: 100%;
         // min-width: 579px;
+        th{
+            font-size: 12px;
+            line-height: 18px;
+        }
+    
+        td {
+            font-size: 12px;
+            line-height: 21px;
+        }
 
         th{
             width: 1%;
@@ -134,5 +147,97 @@ tbody {
     
         width: 100%;
         min-width: 579px;
+    }
+}
+
+@media(max-width: 760px){
+    table{
+        width: 100%;
+        // min-width: 579px;
+        th{
+            font-size: 12px;
+            line-height: 18px;
+            padding: 5px;
+        }
+    
+        td {
+            font-size: 12px;
+            line-height: 21px;
+            padding: 0px;
+        }
+
+        th{
+            width: 1%;
+        }
+    }
+
+    .table__container{
+        width: 100%;
+        min-width: 300px;
+    }
+
+    thead {
+        position: sticky;
+        top: 0;
+        background-color: rgba(74, 58, 255, 0);
+        backdrop-filter: blur(10px);
+        z-index: 0;
+
+        width: 100%;
+        min-width: 300px;
+    }
+    
+    tbody {
+        overflow-y: auto;
+        max-height: 300px;
+    
+        width: 100%;
+        min-width: 300px;
+    }
+}
+
+@media(max-width: 400px){
+    table{
+        width: 100%;
+        // min-width: 579px;
+        th{
+            font-size: 10px;
+            line-height: 14px;
+            padding: 2px;
+        }
+    
+        td {
+            font-size: 8px;
+            line-height: 12px;
+            padding: 0px;
+        }
+
+        th{
+            width: 1%;
+        }
+    }
+
+    .table__container{
+        width: 100%;
+        min-width: 260px;
+    }
+
+    thead {
+        position: sticky;
+        top: 0;
+        background-color: rgba(74, 58, 255, 0);
+        backdrop-filter: blur(10px);
+        z-index: 0;
+
+        width: 100%;
+        min-width: 260px;
+    }
+    
+    tbody {
+        overflow-y: auto;
+        max-height: 260px;
+    
+        width: 100%;
+        min-width: 260px;
     }
 }

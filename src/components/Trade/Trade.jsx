@@ -37,7 +37,6 @@ function Trade ({setIsLogged}){
           case "trade_percent":
             return {...changeUserTrade, trade_percent: action.value}
           case "bif_is_active":
-            console.log(changeUserTrade.bif_is_active)
             return {...changeUserTrade, bif_is_active: !changeUserTrade.bif_is_active}
           case "bif_percent_1":
             return {...changeUserTrade, bif_percent_1: action.value}
@@ -71,7 +70,6 @@ function Trade ({setIsLogged}){
           }
         })
           .then(function (response) {
-            console.log(response)
     
             const setBifPercent = {
                 trade_quantity: response.data.trade_quantity,
@@ -105,11 +103,9 @@ function Trade ({setIsLogged}){
           })
           .then(function (response) {
             // handle success
-            console.log(response)
             setBalance(+response.data.free)
           })
           .catch(function (error) {
-            console.log(error)
             // handle error
           })
           .finally(function () {
@@ -126,7 +122,6 @@ function Trade ({setIsLogged}){
         }
       })
         .then(function (response) {
-          console.log(response)
           // handle success
           setRows(response.data.trades)
           setAtProfit(+response.data.total_profit)
@@ -155,7 +150,6 @@ function Trade ({setIsLogged}){
       //   return () => clearInterval(intervalId);
   
       socket.addEventListener('open', (event) => {
-        // console.log('WebSocket connected');
   
         const subscriptionRequest = {
           method: 'SUBSCRIPTION',
@@ -201,11 +195,9 @@ function Trade ({setIsLogged}){
       });
       
       socket.addEventListener('close', (event) => {
-        // console.log('WebSocket connection closed');
       });
   
       socket.addEventListener('error', (event) => {
-        // console.error('WebSocket error:', event);
       });
   
       return () => {
@@ -222,7 +214,6 @@ function Trade ({setIsLogged}){
           }
         })
           .then(function (response) {
-            console.log(response)
             if(trade){
                 if(response.data !== null){
                     getProfile()
@@ -231,13 +222,11 @@ function Trade ({setIsLogged}){
                     alert("Недостаточно монет для торговли")
                 }
             }else{
-                console.log(response)
                 setButtonDisabled(!isButtonDisabled)
                 alert("Торговля остановлено")
             }
           })
           .catch(function (error) {
-            console.log(error)
             alert(error.response)
           });
       }
@@ -251,11 +240,9 @@ function Trade ({setIsLogged}){
             }
         })
         .then(function(response){
-          console.log(response)
           tradeStop(trade)
         })
         .catch(function (error) {
-            console.log(error)
         })
       }else{
         tradeStop(trade)
@@ -270,7 +257,6 @@ function Trade ({setIsLogged}){
             }
           })
             .then(function (response) {
-              console.log(response)
               tradeStop(true)
             //   if(trade){
             //       if(response.data !== null){
@@ -280,11 +266,9 @@ function Trade ({setIsLogged}){
             //           alert("Недостаточно монет для торговли")
             //       }
             //   }else{
-            //       console.log(response)
             //   }
             })
             .catch(function (error) {
-              console.log(error)
               alert(error.response)
             });
     }
@@ -297,11 +281,9 @@ function Trade ({setIsLogged}){
                 }
             })
             .then(function(response){
-              console.log(response)
               restart()
             })
             .catch(function (error) {
-                console.log(error)
             })
     }
     return(
@@ -344,7 +326,7 @@ function Trade ({setIsLogged}){
                         <Link to="/profile">
                             <img src="/img/setting.png" alt="setting" />
                         </Link>
-                        <div className={styleTrade.nav__exit} onClick={handleLogout} >{Exit} &nbsp; выйти</div>
+                        <div className={styleTrade.nav__exit} onClick={handleLogout} >{Exit} &nbsp; <span>выйти</span></div>
                     </div>
                 </div>
                 <div className={styleTrade.trade__center}>
@@ -388,6 +370,44 @@ function Trade ({setIsLogged}){
                   </div>
                     <Table rows={rows}/>
                 </div>
+                <div className={styleTrade.trade__cash__laptop}>
+                    <div className={styleTrade.trade__balance}>
+                          <div>
+                              <h4>Баланс</h4>
+                              <div className={styleTrade.trade__balance__first}>
+                                  <div className={styleTrade.trade__balance__head}>
+                                      <span>${balance.toFixed(2)}</span>
+                                  </div>
+                              </div>
+                          </div>
+                          <div>
+                              <h4>Общий доход</h4>
+                              <div className={styleTrade.trade__balance__first}>
+                                  <div className={styleTrade.trade__balance__head}>
+                                      <span>${atProfit.toFixed(2)}</span>
+                                  </div>
+                              </div>
+                          </div>
+                    </div>
+                    <div className={styleTrade.trade__well}>
+                        <div>
+                          <h4>KASUSDT</h4>
+                          <div className={styleTrade.trade__balance__second}>
+                              <div className={styleTrade.trade__balance__head}>
+                                  <span>{kasPrice}</span>
+                              </div>
+                          </div>
+                        </div>
+                        <div>
+                          <h4>BTCUSDT</h4>
+                          <div className={styleTrade.trade__balance__second}>
+                              <div className={styleTrade.trade__balance__head}>
+                                  <span>{btcPrice}</span>
+                              </div>
+                          </div>
+                        </div>
+                    </div>
+                  </div>
                 <div className={`${styleTrade.trade__torg} ${isModalAdvice ? styleTrade.trade__torg__withAdvice : ''}`}>
                   <div className={styleTrade.trade__params}>
                     <h3>Параметры</h3>
@@ -489,8 +509,7 @@ function Trade ({setIsLogged}){
                               </p>
                               <img src="/img/robot.png" alt="robot__advice"/>
                           </div>
-                  </div>
-                    
+                  </div>       
                 </div>
             <div className={styleTrade.ball__rigth}></div>
             </div>

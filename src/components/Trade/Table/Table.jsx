@@ -224,7 +224,6 @@ const Table = ({rows, setRows}) => {
       }
     })
       .then(function (response) {
-        console.log(response)
         setRows(response.data.trades)
       })
       .catch(function (error) {
@@ -246,7 +245,6 @@ const Table = ({rows, setRows}) => {
   }, [])
 
   return (
-    <div>
       <table>
         <div className={styleTable.table__container}> 
             <thead>
@@ -266,7 +264,7 @@ const Table = ({rows, setRows}) => {
                     <td>{row.symbol}</td>
                     <td>{row.buy_price}</td>
                     <td>{row.sell_price}</td>
-                    <td>{row.profit}</td>
+                    <td className={styleTable.profit}>{row.profit}</td>
                     <td>{formatDateTime(row.date_time)}</td>
                 </tr>
             )) : 
@@ -276,7 +274,7 @@ const Table = ({rows, setRows}) => {
                     <td>{row.buy_quantity}</td>
                     <td>{row.buy_price}</td>
                     <td>{row.sell_price}</td>
-                    <td>{row.profit}</td>
+                    <td >{row.profit}</td>
                     <td>{row.date_time}</td>
                 </tr>
             ))
@@ -284,7 +282,6 @@ const Table = ({rows, setRows}) => {
             </tbody>
         </div>
       </table>
-    </div>
   );
 };
 

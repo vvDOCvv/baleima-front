@@ -59,13 +59,12 @@ function SignIn ({ setIsLogged, setToken }){
         }}
       )
         .then(function (response) {
-          console.log(response)
           // Сохранение токена в LocalStorage
           saveTokenToLocalStorage(response.data.access_token);
           setIsLogged(true);
         })
         .catch(function (error) {
-          console.log(error)
+     
           // Обработка ошибок
           setError('Неверный логин или пароль');
           setAllError(true);

@@ -143,10 +143,8 @@ function Profile ({setIsLogged}){
           },
         })
         .then((response) => {
-          console.log(response)
         })
         .catch((error) => {
-          console.log(error)
         });
     
         setUserChangeBtn(!userChangeBtn);

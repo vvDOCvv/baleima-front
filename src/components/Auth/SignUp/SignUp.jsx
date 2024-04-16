@@ -101,7 +101,6 @@ function SignUp (){
           'Content-Type': 'application/json'
         }})
         .then(function (response) {
-          console.log(response)
           setUserCorrect(true)
           setUserRep(false)
 
@@ -113,7 +112,6 @@ function SignUp (){
           setPasswordConfirmation("")
         })
         .catch(function (error) {
-          console.log(error)
           if(error.detail){
             setLoginEmailError(true);
             setUserRep(true)
