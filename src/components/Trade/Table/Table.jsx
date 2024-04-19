@@ -196,8 +196,6 @@ const rowsNull = [
 ]
 
 const Table = ({rows, setRows}) => {
-    const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 5; // Установите желаемый размер страницы
   
   const getTokenFromLocalStorage = () => {
     return localStorage.getItem('accessToken');
@@ -217,7 +215,7 @@ const Table = ({rows, setRows}) => {
 
   const fetchData = () => {
   
-    axios.get(`${MEXC_URL}/api/user/trades?limit=${pageSize}&offset=${currentPage}`, {
+    axios.get(`${MEXC_URL}/api/user/trades`, {
       headers: {
         'Accept': 'application/json',
         "Authorization" : `bearer ${getTokenFromLocalStorage()}` 
@@ -235,14 +233,15 @@ const Table = ({rows, setRows}) => {
   useEffect(() => {
     fetchData();
 
-    if (currentPage === 1) {
-      const intervalId = setInterval(() => {
-        fetchData();
-      }, 30000);
+    // if (currentPage === 1) {
+    //   const intervalId = setInterval(() => {
+    //     fetchData();
+    //   }, 30000);
 
-      return () => clearInterval(intervalId);
-    }
+    //   return () => clearInterval(intervalId);
+    // }
   }, [])
+  console.log(rows)
 
   return (
       <table>
@@ -264,7 +263,7 @@ const Table = ({rows, setRows}) => {
                     <td>{row.symbol}</td>
                     <td>{row.buy_price}</td>
                     <td>{row.sell_price}</td>
-                    <td className={styleTable.profit}>{row.profit}</td>
+                    <td className={styleTable[row.status]}>{row.profit}</td>
                     <td>{formatDateTime(row.date_time)}</td>
                 </tr>
             )) : 

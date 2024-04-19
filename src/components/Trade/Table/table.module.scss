@@ -6,8 +6,12 @@ table {
     // background: linear-gradient(#000000, #000000) padding-box,
     // linear-gradient(to top left, #4A3AFF , #4A3AFF, #CC00ED) border-box;
 
-    .profit{
-        color: #3EDD87;
+    .FILLED{
+        color: rgb(62, 221, 135);
+    }
+
+    .CANCELED{
+        color: rgb(224, 60, 60);
     }
 
     th{

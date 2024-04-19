@@ -1,15 +1,17 @@
 import { Link } from "react-router-dom"
 import styleTrade from "./trade.module.scss";
 import Table from "./Table/Table";
+import CryptaWebSocket from "./cryptaWebSocket";
 import {Exit, MEXC_URL } from "../../utils/const";
-import { useEffect, useReducer, useState } from "react";
+import { useCallback, useEffect, useReducer, useState } from "react";
 import axios from "axios";
 
 function Trade ({setIsLogged}){
-    const symbolTrade = ["KASUSDT", "BTCUSDT",];
+    const symbolTrade = ["KASUSDT",];
     const [isModalAdvice, setModalAdvice] = useState(false);
     const [kasPrice, setKasPrice] = useState("0.00");
     const [btcPrice, setBtcPrice] = useState("0.00");
+
     
     const [changeUserTrade, setChangeUserTradeDispatch] = useReducer(reducerUserTrade, {
         symbol_to_trade: "",
@@ -62,15 +64,14 @@ function Trade ({setIsLogged}){
         localStorage.removeItem('accessToken');
     }
 
-    const getProfile = () => {
-        axios.get(`${MEXC_URL}/api/user`,{
-          headers: {
-            'Accept': 'application/json',
-            Authorization: `bearer ${getTokenFromLocalStorage()}`, 
-          }
+    const getProfile = useCallback(() => {
+        axios.get(`${MEXC_URL}/api/user`, {
+            headers: {
+                'Accept': 'application/json',
+                Authorization: `bearer ${getTokenFromLocalStorage()}`,
+            }
         })
-          .then(function (response) {
-    
+        .then(function (response) {
             const setBifPercent = {
                 trade_quantity: response.data.trade_quantity,
                 trade_percent: response.data.trade_percent,
@@ -79,132 +80,55 @@ function Trade ({setIsLogged}){
                 bif_percent_1: response.data.bif_percent_1,
                 bif_percent_2: response.data.bif_percent_2,
                 bif_percent_3: response.data.bif_percent_3,
-            }
+            };
 
-            setUserInfo(response.data)
-            setButtonDisabled(response.data.auto_trade)
+            setUserInfo(response.data);
+            setButtonDisabled(response.data.auto_trade);
             setChangeUserTradeDispatch({ type: "initial_data", payload: setBifPercent });
-            // setUserInfo({trade_percent: response.data.trade_percent, trade_quantity: response.data.trade_quantity,})
-          })
-          .catch(function (error) {
-            // handle error
-          })
-          .finally(function () {
-            // always executed
-          })
-    }
-
-    const  fetchBalanceProfit = () =>{
-        axios.get(`${MEXC_URL}/api/user/balance?symbol=USDT`,{
-            headers: {
-              'Accept': 'application/json',
-              Authorization: `bearer ${getTokenFromLocalStorage()}` 
-            }
-          })
-          .then(function (response) {
-            // handle success
-            setBalance(+response.data.free)
-          })
-          .catch(function (error) {
-            // handle error
-          })
-          .finally(function () {
-            // always executed
-          })
-    }
-
-    const fetchTotalProfit = () => {
-  
-      axios.get(`${MEXC_URL}/api/user/trades`, {
-        headers: {
-          'Accept': 'application/json',
-          Authorization : `bearer ${getTokenFromLocalStorage()}` 
-        }
-      })
-        .then(function (response) {
-          // handle success
-          setRows(response.data.trades)
-          setAtProfit(+response.data.total_profit)
         })
         .catch(function (error) {
+            // handle error
+        });
+    }, []);
+
+    const fetchBalanceProfit = useCallback(() => {
+      axios.get(`${MEXC_URL}/api/user/balance?symbol=USDT`, {
+          headers: {
+              'Accept': 'application/json',
+              Authorization: `bearer ${getTokenFromLocalStorage()}`
+          }
+      })
+      .then(function (response) {
+          setBalance(+response.data.free);
+      })
+      .catch(function (error) {
           // handle error
-        })
-        .finally(function () {
-          // always executed
-        })
-    };
+      });
+  }, []);
+
+    const fetchTotalProfit = useCallback(() => {
+      axios.get(`${MEXC_URL}/api/user/trades`, {
+          headers: {
+              'Accept': 'application/json',
+              Authorization: `bearer ${getTokenFromLocalStorage()}`
+          }
+      })
+      .then(function (response) {
+          setRows(response.data.trades);
+          setAtProfit(+response.data.total_profit);
+      })
+      .catch(function (error) {
+          // handle error
+      });
+  }, []);
   
+
+
     useEffect(() => {
-      const wsUrl = 'wss://wbs.mexc.com/ws';
-      const socket = new WebSocket(wsUrl);
-
       fetchBalanceProfit();
-      fetchTotalProfit()
-      getProfile()
-
-      //   const intervalId = setInterval(() => {
-      //     fetchBalanceProfit();
-      //     fetchTotalProfit();
-      //   }, 30000);
-  
-      //   return () => clearInterval(intervalId);
-  
-      socket.addEventListener('open', (event) => {
-  
-        const subscriptionRequest = {
-          method: 'SUBSCRIPTION',
-          params: [
-            'spot@public.deals.v3.api@KASUSDT', // KAS/USDT
-            'spot@public.deals.v3.api@BTCUSDT'  // BTC/USDT
-          ],
-        };
-  
-        socket.send(JSON.stringify(subscriptionRequest));
-      });
-  
-      socket.addEventListener('message', (event) => {
-        try {
-          const data = JSON.parse(event.data);
-      
-          // Обработка для KAS/USDT
-          if (
-            data &&
-            data['s'] === 'KASUSDT' &&
-            data['d'] &&
-            data['d']['deals'] &&
-            data['d']['deals'].length > 0 &&
-            data['d']['deals'][0]['p']
-          ) {
-            setKasPrice(data['d']['deals'][0]['p']);
-          }
-      
-          // Обработка для BTC/USDT
-          if (
-            data &&
-            data['s'] === 'BTCUSDT' &&
-            data['d'] &&
-            data['d']['deals'] &&
-            data['d']['deals'].length > 0 &&
-            data['d']['deals'][0]['p']
-          ) {
-            setBtcPrice(data['d']['deals'][0]['p']);
-          }
-        } catch (error) {
-          // Обработка ошибки парсинга, если нужно
-        }
-      });
-      
-      socket.addEventListener('close', (event) => {
-      });
-  
-      socket.addEventListener('error', (event) => {
-      });
-  
-      return () => {
-        // Закрытие соединения при размонтировании компонента
-        socket.close();
-      };
-    }, [])
+      fetchTotalProfit();
+      getProfile();
+  }, [fetchBalanceProfit, fetchTotalProfit, getProfile]);
 
       function tradeStop(trade) {
         axios.post(`${MEXC_URL}/api/user/trades?auto_trade=${trade}`, null, {
@@ -350,22 +274,7 @@ function Trade ({setIsLogged}){
                           </div>
                     </div>
                     <div className={styleTrade.trade__well}>
-                        <div>
-                          <h4>KASUSDT</h4>
-                          <div className={styleTrade.trade__balance__second}>
-                              <div className={styleTrade.trade__balance__head}>
-                                  <span>{kasPrice}</span>
-                              </div>
-                          </div>
-                        </div>
-                        <div>
-                          <h4>BTCUSDT</h4>
-                          <div className={styleTrade.trade__balance__second}>
-                              <div className={styleTrade.trade__balance__head}>
-                                  <span>{btcPrice}</span>
-                              </div>
-                          </div>
-                        </div>
+                        <CryptaWebSocket/>
                     </div>
                   </div>
                     <Table rows={rows}/>
@@ -390,22 +299,7 @@ function Trade ({setIsLogged}){
                           </div>
                     </div>
                     <div className={styleTrade.trade__well}>
-                        <div>
-                          <h4>KASUSDT</h4>
-                          <div className={styleTrade.trade__balance__second}>
-                              <div className={styleTrade.trade__balance__head}>
-                                  <span>{kasPrice}</span>
-                              </div>
-                          </div>
-                        </div>
-                        <div>
-                          <h4>BTCUSDT</h4>
-                          <div className={styleTrade.trade__balance__second}>
-                              <div className={styleTrade.trade__balance__head}>
-                                  <span>{btcPrice}</span>
-                              </div>
-                          </div>
-                        </div>
+                        <CryptaWebSocket/>
                     </div>
                   </div>
                 <div className={`${styleTrade.trade__torg} ${isModalAdvice ? styleTrade.trade__torg__withAdvice : ''}`}>

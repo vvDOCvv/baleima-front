@@ -1,0 +1,125 @@
+h4{
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 27px;
+
+    padding-bottom: 12px;
+    color: #CFCDCF;
+}
+
+.trade__balance__second{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 312px;
+    // height: 189px;
+
+    border: 1.19651px solid rgba(255, 255, 255, 0.1);
+    border-radius: 11.9651px;
+
+    .trade__balance__head{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+    
+        span{
+            font-family: 'DM Sans', sans-serif;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 40px;
+            line-height: 56px;
+            letter-spacing: 0.04em;
+    
+            padding-right: 10px;
+            color: #FFFFFF;
+        }
+    }
+
+}
+
+@media(max-width:1420px){
+        .trade__balance__second{
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 312px;
+            // height: 189px;
+
+            border: 1.19651px solid rgba(255, 255, 255, 0.1);
+            border-radius: 11.9651px;
+
+            .trade__balance__head{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px;
+    
+                span{
+                    font-family: 'DM Sans', sans-serif;
+                    font-style: normal;
+                    font-weight: 500;
+                    font-size: 40px;
+                    line-height: 56px;
+                    letter-spacing: 0.04em;
+        
+                    padding-right: 10px;
+                    color: #FFFFFF;
+                }
+            }
+        }
+
+    
+}
+
+@media(max-width:760px){
+
+        .trade__balance__second{
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 312px;
+            // height: 189px;
+
+            border: 1.19651px solid rgba(255, 255, 255, 0.1);
+            border-radius: 11.9651px;
+
+            .trade__balance__head{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 8px;
+    
+                span{
+                    font-family: 'DM Sans', sans-serif;
+                    font-style: normal;
+                    font-weight: 500;
+                    font-size: 36px;
+                    line-height: 46px;
+                    letter-spacing: 0.04em;
+        
+                    padding-right: 10px;
+                    color: #FFFFFF;
+                }
+            }
+
+        }
+
+
+}
+@media(max-width:400px){
+
+
+        .trade__balance__second{
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 255px;
+            // height: 189px;
+
+            border: 1.19651px solid rgba(255, 255, 255, 0.1);
+            border-radius: 11.9651px;
+
+        }
+}
+
