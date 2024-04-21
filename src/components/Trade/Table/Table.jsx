@@ -241,7 +241,6 @@ const Table = ({rows, setRows}) => {
     //   return () => clearInterval(intervalId);
     // }
   }, [])
-  console.log(rows)
 
   return (
       <table>
@@ -259,12 +258,12 @@ const Table = ({rows, setRows}) => {
             <tbody >
             {rows? rows.map((row, index) => (
                 <tr key={index}>
-                    <td>{row.buy_quantity}</td>
-                    <td>{row.symbol}</td>
-                    <td>{row.buy_price}</td>
-                    <td>{row.sell_price}</td>
+                    <td className={styleTable[row.status]}>{row.buy_quantity}</td>
+                    <td className={styleTable[row.status]}>{row.symbol}</td>
+                    <td className={styleTable[row.status]}>{row.buy_price}</td>
+                    <td className={styleTable[row.status]}>{row.sell_price}</td>
                     <td className={styleTable[row.status]}>{row.profit}</td>
-                    <td>{formatDateTime(row.date_time)}</td>
+                    <td className={styleTable[row.status]}>{formatDateTime(row.date_time)}</td>
                 </tr>
             )) : 
             rowsNull.map((row, index) => (

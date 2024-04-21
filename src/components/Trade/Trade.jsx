@@ -156,7 +156,7 @@ function Trade ({setIsLogged}){
       }
 
     const handleTradeClick = (trade) => {
-      if(!trade){
+      if(trade){
         axios.put(`${MEXC_URL}/api/user`, changeUserTrade, {
           headers: {
               'Accept': 'application/json',
