@@ -331,7 +331,7 @@ function Trade ({setIsLogged}){
                               </select>
                           </div>
                           <div className={styleTrade.trade__averag}>
-                              <span>устреднение</span>
+                              <span>усреднение</span>
                               <div onClick={() => setChangeUserTradeDispatch({ type: 'bif_is_active', value: !changeUserTrade.bif_is_active}) } className={styleTrade.trade__down}>
                                   {!changeUserTrade.bif_is_active ? (
                                           <div>
@@ -357,7 +357,7 @@ function Trade ({setIsLogged}){
 
                               {changeUserTrade.bif_is_active ? 
                                   <div className={styleTrade.bif}>
-                                    <span>% устреднение</span>
+                                    <span>% уcреднение</span>
                                     <div>
                                       <input 
                                           type="number"

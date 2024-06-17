@@ -6,6 +6,7 @@ function Main (){
     // useEffect(()=>{
         
     // },[])
+    
     return(
         <div className={styleMain.container}>
             <div className={styleMain.header__ball__left}></div>
@@ -38,7 +39,7 @@ function Main (){
                     <div className={styleMain.allinfo}>
                         <div className={styleMain.allinfo__items}>
                             <div>
-                                +3 446
+                                +16 700
                                 <span> USD</span>
                             </div>
                             <p>Общий профит сайта</p>
@@ -46,7 +47,7 @@ function Main (){
                         <div className={styleMain.vectors}></div>
                         <div className={styleMain.allinfo__items}>
                             <div>
-                                +15 904
+                                +4000
                                 <span> K</span>
                             </div>
                             <p>Всего сделок</p>
@@ -54,7 +55,7 @@ function Main (){
                         <div className={styleMain.vectors}></div>
                         <div className={styleMain.allinfo__items}>
                             <div>
-                                +7,54
+                                +16,7
                                 <span> %</span>
                             </div>
                             <p>Текущий доход за месяц</p>
