@@ -1,11 +1,31 @@
 import { Link } from "react-router-dom";
 import styleMain from "./main.module.scss";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { MEXC_URL } from "../../utils/const";
+import axios from "axios";
 
 function Main (){
-    // useEffect(()=>{
-        
-    // },[])
+    const [tradesCount, setTradesCount] = useState(0)
+    const [tradesProfit, setTradesProfit] = useState(0)
+
+    const getTokenFromLocalStorage = () => {
+        return localStorage.getItem("accessToken");
+      };
+
+    useEffect(()=>{
+        axios.get(`${MEXC_URL}/api/base-info`, {
+            headers: {
+                'Accept': 'application/json',
+                Authorization: `bearer ${getTokenFromLocalStorage()}`,
+            },
+            })
+            .then(function (response) {      
+                setTradesCount(response.data.trades_count)
+                setTradesProfit(response.data.trades_profit)
+            })
+            .catch(function (error) {})
+            .finally(function () {});
+    },[])
     
     return(
         <div className={styleMain.container}>
@@ -39,7 +59,7 @@ function Main (){
                     <div className={styleMain.allinfo}>
                         <div className={styleMain.allinfo__items}>
                             <div>
-                                +16 700
+                                +{Math.round(tradesProfit)}
                                 <span> USD</span>
                             </div>
                             <p>Общий профит сайта</p>
@@ -47,7 +67,7 @@ function Main (){
                         <div className={styleMain.vectors}></div>
                         <div className={styleMain.allinfo__items}>
                             <div>
-                                +4000
+                                +{tradesCount}
                                 <span> K</span>
                             </div>
                             <p>Всего сделок</p>
